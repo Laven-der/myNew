@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>小小老师管理系统</title>
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+	<style>  
+		body{  
+			margin-left:auto;  
+			margin-right:auto; 
+			margin-top:200PX; 
+			width:20em; 
+      background: url("../images/bg2.jpg") no-repeat; 
+      background-size: 100% 640px ;
+		}
+    .bod{
+      position: absolute;
+      width: 540px;
+      height: 300px;
+      left: 31%;
+      top: 90px;
+      border: 1px solid #82A1B1;
+    }
+		#zhc{
+			float: right;
+		}#info{
+			display: none;
+			text-align: center;
+			width: 56%;
+      margin-left: 65px;
+			font-size: 12px;
+      border-radius: 5px;
+		}
+    #submitData .form-group>span,.checkbox>span{
+      margin-left: 24px;
+      text-align:center;
+    }
+    #h3{
+      color: #eee;
+      position: absolute;
+      top: 80px;
+      text-align: center;
+    }
+</style>
+</head>
+<body>
+ <div class="bod">  </div>
+  <h1 id="h3" >小小老师管理系统</h1>
+  <!--下面是用户名输入框-->
+<form  method="post" id="jjk" style="position:absolute;z-index: 888;width: 300px">
+
+		<div class="input-group">
+			
+			<span class="input-group-addon" id="basic-addon1">账户</span>
+			
+			<input id="userName" name="yh" type="text" class="form-control" placeholder="用户名" aria-describedby="basic-addon1" value="">    
+		</div>
+			<br>
+			<!--下面是密码输入框-->
+			<div class="input-group">
+			<span class="input-group-addon" id="basic-addon1">密码</span>
+			<input id="passWord" name="mm" type="password" class="form-control" placeholder="密码" aria-describedby="basic-addon1"  value="">
+		</div>
+			<br>
+			<!--下面是登陆按钮,包括颜色控制-->
+			<input type="text" style="width:110px;background-color:#337AB7;color: #fff;" class="btn btn-default" id="denglu" value="登 录"></input>
+      <button type="button" style="width:110px;"  class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="zhc">注 册</button></form>
+<!-- 弹出层 -->
+    <!-- Modal -->
+    <div  class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+      <div class="modal-dialog" role="document" style="width: 30%">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel" >注册界面</h4>
+          </div>
+          <div class="modal-body" id="submitData">
+                <form>
+                  <div class="form-group"><span>账&nbsp;户:</span>
+                    <label ><input type="text" id="username" class="form-control" name="yh" placeholder="请输入用户名"></label>  
+                  <b id="info"></b>
+                    <div class="form-group"><span>密&nbsp;码:</span>
+                    <label ><input type="password" id="password" class="form-control" name="mm" placeholder="请输入密码"></label>
+                  </div>
+                   <div class="form-group">确认密码:
+                    <label ><input type="password" id="passwordd" class="form-control" name="mm" placeholder="请确认密码"></label>
+                  </div>
+                  <div class="checkbox"><span>性&nbsp;别:</span>
+                    <label><input type="radio" name="sex" value="男" class="sex" >男性</label>
+                    <label><input type="radio" name="sex" value="女" class="sex">女性</label>
+                  </div>
+                    <div class="form-group"><span>邮&nbsp;箱:</span>
+                      <label ><input type="text" class="form-control"  id="yx" placeholder="请输入邮箱"></label>
+                    </div>
+                    </div>
+                </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="quxiao">取消</button>
+            <button type="button" name="ctrlBtn" class="btn btn-primary" id="zhuce">确定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+</body>
+</html>
+<script type="text/javascript" src="../js/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<script> 	 
+		$("#denglu").click(function(){
+			  var JSON = {
+            username:$("#userName").val(),
+            password:$("#passWord").val(),
+       	 }
+       	 $.post("loginn.php",JSON,function(data){
+       	 		console.log(data);
+       	 		if(data=="success"){
+       	 			alert("登录成功")  ;
+              window.location.href="come.php";
+       	 		}else{
+       	 			alert("账号或密码错误");  
+       	 		}
+       	 })
+		})
+$("#passwordd").blur(function(){
+  if($("#password").val()!=$("#passwordd").val()){
+            alert("两次输入密码不一致");
+            $("#zhuce").attr("disabled",true);
+          }else{
+             $("#zhuce").attr("disabled",false);
+          }
+        })
+    $("#zhuce").click(function(){
+        var JSON = {
+            username:$("#username").val(),
+            password:$("#password").val(),
+            qq:$("#yx").val(),
+            sex:$("#submitData").find("input[name=sex]:checked").val()
+         }
+         if($("#username").val()==""){
+          alert("请输入账号");
+          return false;
+         }
+         else if($("#password").val()==""){
+          alert("请输入密码");
+          return false;
+         }
+         $.post("zhuce.php",JSON,function(data){
+            console.log(data);
+            if(data=="success"){
+              alert("注册成功,请登录");
+              //清空模态框数据并关闭模态框
+               $('#myModal').find("input").val("");
+              $('#myModal').modal('hide');
+            }else{
+              alert("注册失败");
+            }
+         })
+    })	
+	$("#quxiao").click(function(){
+     $('#myModal').find("input").val("");
+     $("#info").css({
+                    "display":"none"
+                })
+  })
+$("#username").blur(function(){
+        if(!$(this).val().trim()) return;
+        $.get("checkd.php?username="+$(this).val(),function(data){
+            if(data == "1"){
+                $("#info").css({
+                    "background":"#BBB4B4",
+                    "color":"red",
+                    "display":"block"
+                }).html("用户名已存在,请重新输入！")
+
+                $("#zhuce").attr("disabled",true)
+            }else if( data == "0"){
+                $("#info").css({
+                    "background":"#BBB4B4",
+                    "color":"#fff",
+                    "display":"block"
+                }).html("恭喜您可以使用！")
+                 $("#zhuce").attr("disabled",false)
+
+            }
+        })
+    });
+  
+</script>
