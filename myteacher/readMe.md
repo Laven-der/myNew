@@ -10,7 +10,8 @@
 
 ##准备工作
 ```html
-1. npm安装 express,mongodb,body-parser,ejs
-2. html 
+$npm i
+$node app
+```
 3. 数据库服务器开启
     mongod 操作
