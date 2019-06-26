@@ -1,7 +1,7 @@
 {
   "name": "project_qasystem",
   "version": "1.0.0",
-  "description": "这是爱前端的node.js的大项目",
+  "description": "这是学习的node.js的大项目",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
